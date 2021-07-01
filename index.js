@@ -1,4 +1,4 @@
-const { readFile } = require('fs').promises;
+const { readFile, writeFile } = require('fs').promises;
 const turf = require('@turf/turf');
 const uniq = require('lodash.uniq');
 
@@ -26,14 +26,23 @@ const getOaklandWard = () => {
   });
 };
 
-const listStreets = (streets) => {
-  const parsedStreets = uniq(streets.map((street) => `${street.properties.ST_NAME} ${street.properties.ST_TYPE ? street.properties.ST_TYPE : ''}`));
-  console.log(parsedStreets);
-}
-
 const openJSONFile = (filename) => {
   return readFile(filename, { encoding: 'utf8' })
   .then((file) => Promise.resolve(JSON.parse(file)));
+};
+
+const saveStreets = (streets) => {
+  return writeFile('./streets.json', JSON.stringify(streets));
+};
+
+const transformStreets = (streets) => {
+  return Promise.resolve(
+    uniq(
+      streets.map((street) =>
+        `${street.properties.ST_NAME} ${street.properties.ST_TYPE ? street.properties.ST_TYPE : ''}`
+      )
+    )
+  );
 };
 
 const run = () => {
@@ -42,7 +51,9 @@ const run = () => {
     getCityStreets()
   ])
   .then(getOaklandStreets)
-  .then(listStreets);
+  .then(transformStreets)
+  .then(saveStreets)
+  .then(() => console.log('DONE'));
 };
 
 run();
