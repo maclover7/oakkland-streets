@@ -62,9 +62,11 @@ const saveStreets = (streets) => {
 const transformStreets = (streets) => {
   return Promise.resolve(
     uniq(
-      streets.map((street) =>
+      streets
+      .map((street) =>
         `${street.properties.ST_NAME} ${street.properties.ST_TYPE ? street.properties.ST_TYPE : ''}`
       )
+      .sort()
     )
   );
 };
