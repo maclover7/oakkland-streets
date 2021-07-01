@@ -13,7 +13,7 @@ const excludedStreets = [
   'BLVD OF THE ALLIES TO I376 WB',
   'EAST BUSWAY',
   'FORBES AVE TO BIRMINGHAM BRG',
-  'FOUR MILE RUN'
+  'FOUR MILE RUN',
   'I376',
   'I376 EB TO FORBES AVE',
   'I376 WB TO BATES ST',
@@ -56,7 +56,7 @@ const openJSONFile = (filename) => {
 };
 
 const saveStreets = (streets) => {
-  return writeFile('./streets.json', JSON.stringify(streets));
+  return writeFile('./streets.csv', ['name', ...streets].join(",\n"));
 };
 
 const transformStreets = (streets) => {
