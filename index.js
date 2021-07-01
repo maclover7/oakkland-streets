@@ -1,5 +1,6 @@
 const { readFile } = require('fs').promises;
 const turf = require('@turf/turf');
+const uniq = require('lodash.uniq');
 
 const getCityStreets = () => {
   return openJSONFile('./alleghenycounty_streetcenterlines202106.geojson')
@@ -26,7 +27,8 @@ const getOaklandWard = () => {
 };
 
 const listStreets = (streets) => {
-  console.log(streets.map((street) => street.properties.FULL_NAME));
+  const parsedStreets = uniq(streets.map((street) => `${street.properties.ST_NAME} ${street.properties.ST_TYPE ? street.properties.ST_TYPE : ''}`));
+  console.log(parsedStreets);
 }
 
 const openJSONFile = (filename) => {

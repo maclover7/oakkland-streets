@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@turf/turf": "^6.4.0"
+    "@turf/turf": "^6.4.0",
+    "lodash.uniq": "^4.5.0"
   }
 }
